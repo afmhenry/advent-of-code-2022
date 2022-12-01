@@ -2,11 +2,15 @@ use std::file;
 use std::ops::Index;
 use std::str::FromStr;
 
-fn file_name_helper(stage: String) -> String {
+fn file_name_helper(task: String, mode: String) -> String {
+    let mut name: String = "-<TASK>-<MODE>.txt".to_string();
+    name = name.replace("<MODE>", &mode).to_string();
+    name = name.replace("<TASK>", &task).to_string();
+
     let file_name: Vec<&str> = file!().split("/").collect();
     let day: Vec<&str> = file_name.index(1).split(".").collect();
     let mut parsed_name: String = day.index(0).to_string();
-    parsed_name.push_str(&stage);
+    parsed_name.push_str(&name);
     parsed_name.insert_str(0, "./src/io/");
     return parsed_name;
 }
@@ -19,13 +23,12 @@ fn read_all<T: FromStr>(file_name: &str) -> Vec<Result<T, <T as FromStr>::Err>> 
         .collect()
 }
 
-pub fn task1(mode: String) -> i32 {
-    let mut name: String = "-1-<MODE>.txt".to_string();
-    name = name.replace("<MODE>", &mode).to_string();
-    name = file_name_helper(name);
+pub fn task(task: String, mode: String) -> i32 {
+    let name: String = file_name_helper(task.clone(), mode);
     println!("Run task on {}", name);
     let contents = read_all::<i32>(&name);
     let mut max_calories: i32 = 0;
+    let mut top_three_calories: [i32; 3] = [0, 0, 0];
     let mut curr_calories: i32 = 0;
     for entry in contents {
         match entry {
@@ -36,10 +39,25 @@ pub fn task1(mode: String) -> i32 {
                 }
             }
             Err(_err) => {
+                for i in 0..top_three_calories.len() {
+                    if top_three_calories[i] < curr_calories {
+                        top_three_calories[i] = curr_calories;
+                        top_three_calories.sort();
+                        break;
+                    }
+                }
                 // Do something with the error if you want
                 curr_calories = 0
             }
         }
     }
+    if task == "2" {
+        max_calories = 0;
+        for top in top_three_calories {
+            max_calories += top
+        }
+    }
+    println!("{:?}", max_calories);
+
     return max_calories;
 }
