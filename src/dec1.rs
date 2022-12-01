@@ -1,6 +1,4 @@
 use std::file;
-use std::fs;
-use std::fs::read;
 use std::ops::Index;
 use std::str::FromStr;
 
@@ -21,10 +19,11 @@ fn read_all<T: FromStr>(file_name: &str) -> Vec<Result<T, <T as FromStr>::Err>> 
         .collect()
 }
 
-pub fn task1() {
-    println!("Hello, world!");
-    let name: String = file_name_helper("-1-sim.txt".to_string());
-    println!("run {}", name);
+pub fn task1(mode: String) -> i32 {
+    let mut name: String = "-1-<MODE>.txt".to_string();
+    name = name.replace("<MODE>", &mode).to_string();
+    name = file_name_helper(name);
+    println!("Run task on {}", name);
     let contents = read_all::<i32>(&name);
     let mut max_calories: i32 = 0;
     let mut curr_calories: i32 = 0;
@@ -42,4 +41,5 @@ pub fn task1() {
             }
         }
     }
+    return max_calories;
 }
