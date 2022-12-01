@@ -25,8 +25,21 @@ pub fn task1() {
     println!("Hello, world!");
     let name: String = file_name_helper("-1-sim.txt".to_string());
     println!("run {}", name);
-    let contents = read_all::<String>(&name);
+    let contents = read_all::<i32>(&name);
+    let mut max_calories: i32 = 0;
+    let mut curr_calories: i32 = 0;
     for entry in contents {
-        println!("{}", entry.unwrap());
+        match entry {
+            Ok(val) => {
+                curr_calories += val;
+                if curr_calories > max_calories {
+                    max_calories = curr_calories
+                }
+            }
+            Err(_err) => {
+                // Do something with the error if you want
+                curr_calories = 0
+            }
+        }
     }
 }
