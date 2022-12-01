@@ -23,7 +23,7 @@ fn read_all<T: FromStr>(file_name: &str) -> Vec<Result<T, <T as FromStr>::Err>> 
         .collect()
 }
 
-pub fn task(task: String, mode: String) -> i32 {
+fn task(task: String, mode: String) -> i32 {
     let name: String = file_name_helper(task.clone(), mode);
     println!("Run task on {}", name);
     let contents = read_all::<i32>(&name);
@@ -60,4 +60,23 @@ pub fn task(task: String, mode: String) -> i32 {
     println!("{:?}", max_calories);
 
     return max_calories;
+}
+
+pub fn all_tasks() {
+    assert!(
+        24000 == task("1".to_string(), "sim".to_string()),
+        "Sim Failed"
+    );
+    assert!(
+        69177 == task("1".to_string(), "live".to_string()),
+        "Live Failed"
+    );
+    assert!(
+        45000 == task(String::from("2"), "sim".to_string()),
+        "Sim Failed"
+    );
+    assert!(
+        207456 == task("2".to_string(), "live".to_string()),
+        "Live Failed"
+    );
 }
