@@ -36,7 +36,7 @@ fn task(task: &str, data: &str, mode: &str) -> i32 {
     return max_calories;
 }
 
-pub fn dec1_tasks() {
+pub fn tasks() {
     assert!(24000 == task("1", "1", "sim"), "Task 1 Sim Failed");
     println!("Task 1 Live Result: {:?}", task("1", "1", "live"));
     // Result is 69177
