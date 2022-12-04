@@ -1,4 +1,4 @@
-mod dec1;
+mod sols;
 fn main() {
-    dec1::all_tasks()
+    sols::dec1::dec1_tasks()
 }
