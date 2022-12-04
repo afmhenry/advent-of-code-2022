@@ -1,7 +1,5 @@
 use crate::sols::helpers as h;
 
-const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 const DAY: &str = "dec4";
 
 fn task(task: &str, data: &str, mode: &str) -> i32 {
@@ -31,10 +29,9 @@ fn task(task: &str, data: &str, mode: &str) -> i32 {
                         result += 1;
                     }
                 } else {
-                    if (e1_end < e2_start && e1_end < e2_end)
-                        || e2_end < e1_start && e2_end < e1_end
+                    if !(e1_end < e2_start && e1_end < e2_end)
+                        && !(e2_end < e1_start && e2_end < e1_end)
                     {
-                    } else {
                         result += 1;
                     }
                 }
@@ -53,5 +50,5 @@ pub fn tasks() {
     // Result is 485
     assert!(4 == task("2", "1", "sim"), "Task 2 Sim Failed");
     println!("Task 2 Live Result: {:?}", task("2", "1", "live"));
-    // Result is 2609
+    // Result is 857
 }
